@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Wii ❤️</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        font-family: 'Segoe UI', sans-serif;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .container {
+        background: white;
+        padding: 50px;
+        border-radius: 25px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        max-width: 400px;
+        position: relative;
+        z-index: 2;
+    }
+
+    h1 {
+        color: #ff2e63;
+        margin-bottom: 20px;
+        font-size: 26px;
+    }
+
+    .subtext {
+        color: #555;
+        margin-bottom: 25px;
+        font-size: 16px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    button {
+        padding: 15px 40px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+        background-color: #ff2e63;
+        color: white;
+        box-shadow: 0 0 10px #ff2e63;
+    }
+
+    #noBtn {
+        background-color: #444;
+        color: white;
+    }
+
+    #message {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #ff2e63;
+        min-height: 40px;
+    }
+
+    #finalMessage {
+        display: none;
+        font-size: 20px;
+        margin-top: 20px;
+        color: #ff2e63;
+        animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hearts animation */
+    .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: red;
+        transform: rotate(45deg);
+        animation: floatUp 4s linear infinite;
+        z-index: 1;
+    }
+
+    .heart::before,
+    .heart::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: red;
+        border-radius: 50%;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: 10px; top: 0; }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+        100% { transform: translateY(-400px) rotate(45deg); opacity: 0; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Wii, will you be my Valentine? ❤️</h1>
+    <div class="subtext">From Zayyan, who clearly has elite taste 😌</div>
+
+    <div class="buttons">
+        <button id="yesBtn">Yes 💖</button>
+        <button id="noBtn">No 🙈</button>
+    </div>
+
+    <div id="message"></div>
+
+    <div id="finalMessage">
+        Of course you said yes 😌❤️<br><br>
+        How could someone this gorgeous, this cute, this unreal...  
+        say no to someone who adores her this much?  
+        <br><br>
+        You’re officially my Valentine now, Wii 💍💘
+    </div>
+</div>
+
+<!-- Background music -->
+<audio id="bgMusic" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    let noBtn = document.getElementById("noBtn");
+    let yesBtn = document.getElementById("yesBtn");
+    let message = document.getElementById("message");
+    let finalMessage = document.getElementById("finalMessage");
+    let body = document.body;
+    let scale = 1;
+    let clickCount = 0;
+
+    const dramaticMessages = [
+        "Wii... are you sure? You're literally the cutest girl alive 🥺",
+        "No?? From someone this gorgeous?? Impossible 😭",
+        "Your smile alone deserves a YES 💕",
+        "The way you're this beautiful and still pressing no??",
+        "Okay but you’re too pretty to be rejecting me 😌",
+        "This button is shrinking just like my patience 😩",
+        "Fine... but you’re still the most stunning girl ever 💖"
+    ];
+
+    function createHeart() {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDuration = 2 + Math.random() * 3 + "s";
+        body.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 4000);
+    }
+
+    setInterval(createHeart, 500);
+
+    noBtn.addEventListener("click", function() {
+        if (clickCount < dramaticMessages.length) {
+            message.textContent = dramaticMessages[clickCount];
+        }
+
+        scale -= 0.12;
+        clickCount++;
+
+        if (scale <= 0.2) {
+            noBtn.style.display = "none";
+            message.textContent = "The universe refuses to let someone this cute say no 😌";
+        } else {
+            noBtn.style.transform = "scale(" + scale + ")";
+        }
+    });
+
+    yesBtn.addEventListener("click", function() {
+        document.querySelector(".buttons").style.display = "none";
+        message.style.display = "none";
+        finalMessage.style.display = "block";
+
+        // Confetti effect
+        for (let i=0; i<100; i++) {
+            let confetti = document.createElement("div");
+            confetti.style.position = "absolute";
+            confetti.style.width = "10px";
+            confetti.style.height = "10px";
+            confetti.style.background = ['#ff2e63','#ff758c','#ff7eb3','#ffd3e0'][Math.floor(Math.random()*4)];
+            confetti.style.left = Math.random()*window.innerWidth+"px";
+            confetti.style.top = Math.random()*window.innerHeight+"px";
+            confetti.style.opacity = Math.random();
+            confetti.style.transform = "rotate("+Math.random()*360+"deg)";
+            confetti.style.borderRadius = "50%";
+            confetti.style.transition = "all 3s linear";
+            body.appendChild(confetti);
+            setTimeout(()=>{confetti.style.top=window.innerHeight+"px"; confetti.style.opacity=0;},50);
+            setTimeout(()=>{confetti.remove();},3500);
+        }
+    });
+</script>
+
+</body>
+</html>
